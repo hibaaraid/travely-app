@@ -1,0 +1,18 @@
+.admin-dashboard { padding: 2rem 1.5rem; }
+.dash-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+.dash-title { font-size: 24px; font-weight: 600; margin: 0; color: #1a1a2e; }
+.dash-subtitle { font-size: 14px; color: #888; margin: 4px 0 0; }
+.admin-badge { font-size: 13px; background: #f0f0f0; padding: 6px 14px; border-radius: 99px; color: #555; }
+.section-label { font-size: 12px; color: #aaa; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 12px; }
+.stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
+.stat-card { background: #f8f8f8; border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 8px; }
+.stat-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.stat-number { font-size: 28px; font-weight: 600; color: #1a1a2e; }
+.stat-label { font-size: 13px; color: #888; }
+.nav-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.nav-card { background: #fff; border: 1px solid #eee; border-radius: 12px; padding: 1rem 1.25rem; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: border-color 0.15s, box-shadow 0.15s; }
+.nav-card:hover { border-color: #ccc; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.nav-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.nav-title { font-size: 14px; font-weight: 600; color: #1a1a2e; margin: 0; }
+.nav-desc { font-size: 12px; color: #888; margin: 2px 0 0; }
+.loading-text { color: #aaa; font-size: 14px; }

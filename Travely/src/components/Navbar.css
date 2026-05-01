@@ -1,0 +1,98 @@
+/* ===== TOP BAR ===== */
+.top-bar {
+  background-color:#1a3c5e;
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+/* Nouveau style pour l'image du logo */
+.logo-img {
+  height: 45px; /* Ajuste cette valeur selon la taille de ton image */
+  width: auto;
+  cursor: pointer;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: white;
+  font-size: 14px;
+}
+
+.divider {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background-color: white;
+  border-bottom: 2px solid #e8a020;
+  padding: 0 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 4px;
+}
+
+.nav-link {
+  display: inline-block;
+  padding: 13px 22px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1a3c5e;
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #e8a020;
+  border-bottom: 3px solid #e8a020;
+}
+
+/* ===== BOUTONS AUTHENTIFICATION ===== */
+.btn-auth {
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* Bouton Déconnexion (Orange) */
+.btn-logout {
+  background-color: #e8a020;
+}
+
+.btn-logout:hover {
+  background-color: #c8871a;
+}
+
+/* Bouton Connexion (Bleu) */
+.btn-login {
+  background-color: #004AAD;
+}
+
+.btn-login:hover {
+  background-color: #003680;
+}

@@ -1,0 +1,183 @@
+/* ─── LOADING / ERROR ─────────────────────────────────────── */
+.loading-screen {
+  text-align: center;
+  padding: 100px 20px;
+  color: #1a2744;
+  font-size: 22px;
+}
+.error-screen {
+  text-align: center;
+  padding: 100px 20px;
+  color: #e8630a;
+  font-size: 18px;
+}
+
+/* ─── HERO ────────────────────────────────────────────────── */
+.hero {
+  background: linear-gradient(135deg, #1a2744 0%, #2d4a7a 100%);
+  color: white;
+  text-align: center;
+  padding: 100px 20px;
+  margin-bottom: 60px;
+}
+.hero h1 {
+  font-size: 46px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+.hero p {
+  font-size: 20px;
+  opacity: 0.85;
+  margin-bottom: 40px;
+}
+.hero-search {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.hero-search input {
+  padding: 14px 24px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  width: 320px;
+  outline: none;
+}
+.hero-search button {
+  padding: 14px 32px;
+  background: #e8630a;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.hero-search button:hover {
+  background: #c9520a;
+}
+
+/* ─── CONTENU ─────────────────────────────────────────────── */
+.accueil-contenu {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+/* ─── SECTION CATEGORIE ───────────────────────────────────── */
+.section-categorie {
+  margin-bottom: 56px;
+}
+.section-categorie h2 {
+  color: #1a2744;
+  border-left: 4px solid #e8630a;  /* ← orange au lieu de rouge */
+  padding-left: 16px;
+  margin-bottom: 28px;
+  font-size: 24px;
+}
+.destinations-grille {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
+}
+
+/* ─── CARTE ───────────────────────────────────────────────── */
+.carte {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+  background: white;
+  transition: transform 0.3s;
+}
+.carte:hover {
+  transform: translateY(-5px);
+}
+.carte-image {
+  height: 200px;
+  background: linear-gradient(135deg, #1a2744, #2d4a7a);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px;
+  position: relative;
+}
+.carte-image-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  opacity: 0.4;
+}
+.carte-badge {
+  background: #e8630a;           /* ← orange */
+  color: white;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+.carte-body {
+  padding: 16px;
+}
+.carte-body h3 {
+  margin: 0 0 8px;
+  color: #1a2744;                 /* ← bleu foncé */
+  font-size: 16px;
+}
+.carte-body .description {
+  color: #666;
+  font-size: 13px;
+  margin: 0 0 8px;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.carte-body .places {
+  color: #2d4a7a;
+  font-size: 13px;
+  margin: 0 0 8px;
+}
+.carte-body .date {
+  color: #666;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+.carte-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.carte-prix {
+  color: #e8630a;                 /* ← orange */
+  font-weight: bold;
+  font-size: 20px;
+}
+.carte-btn {
+  background: #1a2744;            /* ← bleu foncé */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+.carte-btn:hover {
+  background: #e8630a;            /* ← orange au hover */
+}
+
+/* ─── RESPONSIVE ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 28px; }
+  .hero p  { font-size: 16px; }
+  .hero-search input { width: 100%; }
+  .destinations-grille { grid-template-columns: 1fr; }
+  .section-categorie h2 { font-size: 20px; }
+}

@@ -1,0 +1,29 @@
+:root {
+  --travely-blue: #003580;     /* On renomme --ole-blue */
+  --travely-orange: #ff6700;   /* On renomme --ole-orange */
+  --travely-light-bg: #f5f7fa;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--ole-light-bg);
+  color: var(--ole-text);
+}
+
+/* Style de base pour les boutons que vous utiliserez partout */
+.btn-primary {
+  background-color: var(--travely-orange); 
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%; /* Pour qu'il prenne toute la largeur */
+  display: block; /* Pour s'assurer qu'il occupe l'espace */
+}
+
+.btn-primary:hover {
+  background-color: #e55c00;
+}

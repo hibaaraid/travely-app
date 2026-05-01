@@ -1,0 +1,65 @@
+.reservation-item {
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border: 1px solid #eee;
+  transition: transform 0.2s;
+}
+
+.reservation-item:hover {
+  transform: translateY(-2px);
+}
+
+.res-image {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.res-info {
+  flex: 1;
+  padding: 0 25px;
+}
+
+.res-info h3 {
+  margin: 0 0 8px 0;
+  color: var(--travely-blue);
+  font-size: 1.2rem;
+}
+
+.res-date {
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.res-price {
+  font-weight: bold;
+  color: var(--travely-orange);
+  font-size: 1.1rem;
+}
+
+.status-badge {
+  padding: 6px 15px;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Couleurs des badges */
+.status-badge.confirmée { background: #d4edda; color: #155724; }
+.status-badge.en-attente { background: #fff3cd; color: #856404; }
+
+.btn-details {
+  background: var(--travely-blue);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+}

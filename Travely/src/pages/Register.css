@@ -1,0 +1,28 @@
+/* On importe les styles de Login.css pour ne pas tout réécrire */
+@import './Login.css';
+
+/* On ajoute juste les petites spécificités pour l'inscription si nécessaire */
+
+.register-card {
+    /* Si vous voulez que la carte d'inscription soit un peu plus large 
+       que celle du login à cause des champs supplémentaires */
+    max-width: 450px; 
+}
+
+.login-form .form-group {
+    margin-bottom: 15px; /* Un peu moins d'espace entre les champs pour que tout rentre */
+}
+
+/* Style pour la checkbox des conditions si vous en ajoutez une */
+.terms-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.terms-group input {
+    width: auto;
+}
