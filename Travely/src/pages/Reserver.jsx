@@ -1,63 +1,89 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import api from '../api/axiosConfig';
 import './Reserver.css';
 
 const Reserver = () => {
-  const [nbPersonnes, setNbPersonnes] = useState(1);
-  const navigate = useNavigate();
-  const prixUnitaire = 1150;
+    const [destinations, setDestinations] = useState([]);
+    const [selectedId, setSelectedId] = useState('');
+    const navigate = useNavigate();
 
-  const handleBooking = (e) => {
-    e.preventDefault();
+    useEffect(() => {
+        api.get('/destinations').then(res => {
+            setDestinations(res.data);
+            if (res.data.length > 0) {
+                // On s'assure de stocker l'ID comme une chaîne pour le <select>
+                setSelectedId(res.data[0].id.toString());
+            }
+        });
+    }, []);
 
-    const nouvelleRes = {
-      id: Date.now(),
-      destination: "Circuit Grand Sud Maroc",
-      date: e.target.date.value,
-      prix: (prixUnitaire * nbPersonnes) + " DH",
-      statut: "En attente",
-      image: "https://www.olevoyages.ma/wp-content/uploads/2023/05/sud-maroc.jpg" // Image d'exemple
+    const handleConfirm = async () => {
+        const userId = localStorage.getItem('user_id');
+        
+        // Sécurité : Vérifier si l'userId existe
+        if (!userId) {
+            alert("Erreur : Utilisateur non connecté.");
+            return;
+        }
+
+        try {
+            await api.post('/reservations', {
+                user_id: parseInt(userId),
+                destination_id: parseInt(selectedId),
+                statut: 'en attente'
+            });
+            alert("Voyage réservé !");
+            navigate('/mes-reservations');
+        } catch (err) {
+            // Affiche l'erreur précise dans la console pour le debug
+            console.error("Erreur détails:", err.response?.data);
+            alert("Erreur lors de la réservation : " + (err.response?.data?.message || "Erreur serveur"));
+        }
     };
 
-    const anciennes = JSON.parse(localStorage.getItem('mes_voyages')) || [];
-    localStorage.setItem('mes_voyages', JSON.stringify([...anciennes, nouvelleRes]));
+    // Trouver la destination sélectionnée
+    const selectedDest = destinations.find(d => d.id.toString() === selectedId.toString());
 
-    alert("Voyage réservé !");
-    navigate('/mes-reservations');
-  };
+    return (
+        <div className="reserver-page">
+            <div className="reserver-card">
+                <h2>Confirmer votre Voyage</h2>
+                
+                <select 
+                    value={selectedId} 
+                    onChange={(e) => setSelectedId(e.target.value)} 
+                    className="custom-select"
+                >
+                    {destinations.map(d => (
+                        <option key={d.id} value={d.id}>
+                            {d.titre}
+                        </option>
+                    ))}
+                </select>
 
-  return (
-    <div className="reserver-page">
-      <div className="reserver-container">
-        <div className="reserver-form-section">
-          <h2>Confirmer votre Réservation</h2>
-          <form className="res-form" onSubmit={handleBooking}>
-            <div className="form-section">
-              <h3>1. Détails du Voyage</h3>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Date</label>
-                  <input name="date" type="date" required />
-                </div>
-                <div className="form-group">
-                  <label>Voyageurs</label>
-                  <input type="number" min="1" value={nbPersonnes} onChange={(e) => setNbPersonnes(e.target.value)} />
-                </div>
-              </div>
+                {/* SÉCURITÉ : On n'accède aux propriétés que si l'objet existe */}
+                {selectedDest ? (
+                    <div className="dest-details">
+                        <p className="price-tag">Prix : <strong>{selectedDest.prix} DH</strong></p>
+                        <p className="dest-info">Destination : {selectedDest.titre}</p>
+                    </div>
+                ) : (
+                    <p>Chargement des détails...</p>
+                )}
+
+                <div className="status-info">Statut : <strong>En attente</strong></div>
+                
+                <button 
+                    onClick={handleConfirm} 
+                    className="btn-confirm"
+                    disabled={!selectedId}
+                >
+                    Confirmer
+                </button>
             </div>
-            <button type="submit" className="btn-primary">Confirmer Travely</button>
-          </form>
         </div>
-
-        <div className="reserver-summary">
-          <div className="summary-card">
-            <h3>Total : {(prixUnitaire * nbPersonnes) + 150} DH</h3>
-            <p>(Incluant 150 DH de frais)</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Reserver;

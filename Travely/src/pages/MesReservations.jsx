@@ -1,32 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import ReservationItem from '../components/ReservationItem'; // Import par défaut (sans {})
+import { Link } from 'react-router-dom';
+import api from '../api/axiosConfig';
+import ReservationItem from '../components/ReservationItem';
+import './Dashboard.css';
 
 const MesReservations = () => {
   const [voyages, setVoyages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // On récupère les données stockées localement
-    const data = JSON.parse(localStorage.getItem('mes_voyages')) || [];
-    setVoyages(data);
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+      api.get(`/reservations?user_id=${userId}`)
+        .then(res => {
+          // res.data contient maintenant les réservations avec leurs destinations
+          setVoyages(res.data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Erreur lors de la récupération :", err);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   }, []);
 
+  if (loading) {
+    return <div className="loading">Chargement de vos voyages...</div>;
+  }
+
   return (
-    <div style={{ padding: '40px 20px', maxWidth: '800px', margin: '0 auto' }}>
-      <h2 style={{ color: 'var(--travely-blue)', marginBottom: '30px' }}>
-        Mon Tableau de Bord / Mes Réservations
-      </h2>
-      
-      <div className="list-container">
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+        <h1>Mon Tableau de Bord</h1>
+        <p>Bienvenue, {localStorage.getItem('user_name') || 'Voyageur'}</p>
+      </div>
+
+      <div className="reservation-list">
         {voyages.length > 0 ? (
-          voyages.map((v) => (
+          voyages.map(v => (
+            /* On passe l'objet de réservation au composant corrigé */
             <ReservationItem key={v.id} reservation={v} />
           ))
         ) : (
-          <div style={{ textAlign: 'center', padding: '20px', background: 'white', borderRadius: '8px' }}>
-            <p>Vous n'avez pas encore de réservations Travely.</p>
-            <a href="/reserver" style={{ color: 'var(--travely-orange)', fontWeight: 'bold' }}>
+          <div className="empty-state">
+            <p>Aucune réservation trouvée.</p>
+            <Link to="/reserver" className="btn-reserve-now">
               Réserver mon premier voyage
-            </a>
+            </Link>
           </div>
         )}
       </div>

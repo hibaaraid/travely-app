@@ -2,16 +2,21 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import logoTravely from '../images/logo.png';
-// Si tu as ton logo dans le dossier src, tu peux l'importer comme ceci :
-// import logoTravely from '../assets/logo.png'; 
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+  
+  // Vérification de l'état de connexion
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' || !!localStorage.getItem('token');
 
   const handleLogout = () => {
+    // Nettoyage complet du stockage
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_name');
     navigate('/login');
   };
 
@@ -19,26 +24,21 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  // Liste mise à jour avec les accès aux fonctionnalités de réservation
   const navLinks = [
     { label: 'Accueil', path: '/' },
-    { label: 'Destinations', path: '/destinations' },
-    { label: 'À propos de nous', path: '/a-propos' },
+    { label: 'Réserver', path: '/reserver' }, // Lien vers la sélection
+    { label: 'Mes Réservations', path: '/mes-reservations' }, // Lien vers le dashboard
     { label: 'Contact', path: '/contact' },
   ];
 
   return (
-    <header>
-
-      {/* ===== TOP BAR ===== */}
+    <header className="main-header">
+      {/* ===== TOP BAR (Emails & Tel) ===== */}
       <div className="top-bar">
         <div className="brand">
-          {/* On enveloppe le logo dans un Link pour que cliquer dessus ramène à l'accueil */}
           <Link to="/">
-            <img 
-              src={logoTravely} /* Remplace par ton image (ex: {logoTravely}) */
-              alt="Logo Travely" 
-              className="logo-img" 
-            />
+            <img src={logoTravely} alt="Logo Travely" className="logo-img" />
           </Link>
         </div>
         <div className="contact-info">
@@ -48,7 +48,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* ===== NAVBAR ===== */}
+      {/* ===== NAVBAR PRINCIPALE ===== */}
       <nav className="navbar">
         <ul className="navbar-links">
           {navLinks.map((link) => (
@@ -63,18 +63,18 @@ const Navbar = () => {
           ))}
         </ul>
         
-        {/* Affichage dynamique du bouton selon l'état de connexion */}
-        {isLoggedIn ? (
-          <button onClick={handleLogout} className="btn-auth btn-logout">
-            Déconnexion
-          </button>
-        ) : (
-          <button onClick={handleLogin} className="btn-auth btn-login">
-            Connexion
-          </button>
-        )}
+        <div className="auth-container">
+          {isLoggedIn ? (
+            <button onClick={handleLogout} className="btn-auth btn-logout">
+              Déconnexion
+            </button>
+          ) : (
+            <button onClick={handleLogin} className="btn-auth btn-login">
+              Connexion
+            </button>
+          )}
+        </div>
       </nav>
-
     </header>
   );
 };

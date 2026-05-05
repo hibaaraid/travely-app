@@ -2,27 +2,34 @@ import React from 'react';
 import './ReservationItem.css';
 
 const ReservationItem = ({ reservation }) => {
-  // On extrait les données ou on met des valeurs par défaut pour éviter les crashs
+  // CORRECTION : On extrait les données selon la structure réelle de ton API Laravel
+  // reservation.destination est un objet, reservation.date_reservation est une chaîne
   const { 
-    destination = "Destination Travely", 
-    date = "Date non définie", 
-    prix = "0 DH", 
-    statut = "En attente",
-    image = "https://via.placeholder.com/150" 
+    destination, 
+    date_reservation, 
+    statut = "En attente"
   } = reservation || {};
 
   return (
     <div className="reservation-item">
-      <img src={image} alt={destination} className="res-image" />
+      {/* On utilise l'image de la destination ou un placeholder */}
+      <img 
+        src={destination?.image || "https://via.placeholder.com/150"} 
+        alt={destination?.titre} 
+        className="res-image" 
+      />
       
       <div className="res-info">
-        <h3>{destination}</h3>
-        <p className="res-date">📅 {date}</p>
-        <p className="res-price">{prix}</p>
+        {/* ✅ IMPORTANT : On affiche .titre et non l'objet destination complet */}
+        <h3>{destination?.titre || "Destination Travely"}</h3>
+        
+        <p className="res-date">📅 {date_reservation || "Date non définie"}</p>
+        
+        {/* ✅ IMPORTANT : On affiche .prix venant de l'objet destination */}
+        <p className="res-price">{destination?.prix ? `${destination.prix} DH` : "Prix non défini"}</p>
       </div>
 
       <div className="res-status">
-        {/* On applique une classe dynamique selon le statut (confirmée ou en-attente) */}
         <span className={`status-badge ${statut.toLowerCase().replace(/\s+/g, '-')}`}>
           {statut}
         </span>
@@ -32,5 +39,4 @@ const ReservationItem = ({ reservation }) => {
   );
 };
 
-// LA LIGNE LA PLUS IMPORTANTE :
 export default ReservationItem;

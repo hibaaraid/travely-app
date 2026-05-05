@@ -1,0 +1,58 @@
+.dashboard-container {
+    padding: 30px 8%;
+    background-color: #f9fbff;
+    min-height: 100vh;
+}
+
+.dashboard-header {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 15px rgba(37, 117, 252, 0.2);
+}
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.reservation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border-left: 5px solid #6a11cb; /* Rappel de la couleur violette */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.status.confirmée {
+    background-color: #e3fcef;
+    color: #00875a;
+}
+
+.btn-view {
+    background: transparent;
+    border: 1px solid #2575fc;
+    color: #2575fc;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-view:hover {
+    background: #2575fc;
+    color: white;
+}
