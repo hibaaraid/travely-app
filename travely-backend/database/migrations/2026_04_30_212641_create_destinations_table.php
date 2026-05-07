@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('categorie');
             $table->string('image')->nullable();
             $table->string('duree')->nullable();
+            $table->date('date_depart')->nullable();        // <- ajoute
+            $table->integer('places_disponibles')->nullable(); // <- ajoute
+            $table->string('role')->default('user');
             $table->timestamps();
         });
     }

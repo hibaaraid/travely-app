@@ -8,6 +8,7 @@ use App\Http\Controllers\UserController;
 use App\Models\User;
 use App\Models\Destination;
 use App\Models\Reservation;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,8 @@ use App\Models\Reservation;
 // Authentification
 \Route::post('/register', [AuthController::class, 'register']);
 \Route::post('/login', [AuthController::class, 'login'])->name('login');
-
+// Route publique
+Route::post('/contact', [ContactController::class, 'store']);
 
 // ─── ROUTES PROTÉGÉES (Logique métier et Admin) ───
 // Note : 'api' est utilisé car vous gérez les tokens manuellement dans AuthController
@@ -59,6 +61,10 @@ use App\Models\Reservation;
     \Route::delete('/admin/users/{id}',   [UserController::class, 'destroy']);
 });
 
+// Routes admin
+Route::get('/admin/contacts', [ContactController::class, 'index']);
+Route::put('/admin/contacts/{id}/lu', [ContactController::class, 'marquerLu']);
+Route::delete('/admin/contacts/{id}', [ContactController::class, 'destroy']);
 
 // ─── GESTION DES ERREURS ───
 // Toujours placer le fallback en dernier pour capturer les URLs inexistantes

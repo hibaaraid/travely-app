@@ -10,7 +10,7 @@ class User extends Authenticatable
     use Notifiable;
 
     // On utilise 'nom' car c'est le nom de la colonne dans ton SQL
-    protected $fillable = ['nom', 'email', 'password', 'role'];
+    protected $fillable = ['name', 'email', 'password', 'role'];
 
     protected $hidden = ['password'];
 
