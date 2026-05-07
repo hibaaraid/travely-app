@@ -5,10 +5,12 @@ import './AdminDashboard.css';
 
 const AdminDashboard = () => {
     const [stats, setStats] = useState({ nb_voyages: 0, nb_reservations: 0, nb_users: 0 });
+    const [nbMessages, setNbMessages] = useState(0); // ✅ nouveau
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
+        // Stats existantes
         api.get('/admin/stats')
             .then(response => {
                 setStats(response.data);
@@ -18,18 +20,30 @@ const AdminDashboard = () => {
                 console.error("Erreur stats", error);
                 setLoading(false);
             });
+
+        // ✅ Récupérer le nombre de messages non lus
+        api.get('/admin/contacts')
+            .then(res => {
+                const nonLus = res.data.filter(c => !c.lu).length;
+                setNbMessages(nonLus);
+            })
+            .catch(err => console.error("Erreur messages", err));
     }, []);
 
     const navItems = [
-        { icon: '✈', label: 'Destinations', desc: 'Ajouter, modifier, supprimer', path: '/admin/destinations', color: '#E6F1FB', textColor: '#185FA5' },
-        { icon: '📋', label: 'Réservations', desc: 'Valider ou annuler', path: '/admin/reservations', color: '#EAF3DE', textColor: '#3B6D11' },
-        { icon: '👥', label: 'Utilisateurs', desc: 'Gérer les comptes', path: '/admin/users', color: '#FAEEDA', textColor: '#854F0B' },
+        { icon: '✈',  label: 'Destinations', desc: 'Ajouter, modifier, supprimer', path: '/admin/voyages',      color: '#E6F1FB', textColor: '#185FA5' },
+        { icon: '📋', label: 'Réservations', desc: 'Valider ou annuler',           path: '/admin/reservations', color: '#EAF3DE', textColor: '#3B6D11' },
+        { icon: '👥', label: 'Utilisateurs', desc: 'Gérer les comptes',            path: '/admin/users',        color: '#FAEEDA', textColor: '#854F0B' },
+        // ✅ nouveau
+        { icon: '✉️', label: 'Messages',     desc: 'Voir les messages de contact', path: '/admin/contacts',     color: '#FCE8F3', textColor: '#9B1B6A' },
     ];
 
     const statCards = [
-        { icon: '✈', number: stats.nb_voyages,      label: 'Voyages disponibles',  color: '#E6F1FB', textColor: '#185FA5' },
+        { icon: '✈',  number: stats.nb_voyages,      label: 'Voyages disponibles',  color: '#E6F1FB', textColor: '#185FA5' },
         { icon: '📋', number: stats.nb_reservations, label: 'Réservations totales', color: '#EAF3DE', textColor: '#3B6D11' },
         { icon: '👥', number: stats.nb_users,        label: 'Clients inscrits',     color: '#FAEEDA', textColor: '#854F0B' },
+        // ✅ nouveau
+        { icon: '✉️', number: nbMessages,            label: 'Messages non lus',     color: '#FCE8F3', textColor: '#9B1B6A' },
     ];
 
     return (

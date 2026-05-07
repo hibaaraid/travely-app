@@ -1,0 +1,183 @@
+/* ===== PAGE CONTACT ===== */
+.contact-page {
+    background: #f4f7f6;
+    min-height: 100vh;
+    padding-bottom: 60px;
+}
+
+/* ===== EN-TÊTE ===== */
+.contact-header {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.contact-header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.contact-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* ===== CONTAINER PRINCIPAL ===== */
+.contact-container {
+    display: flex;
+    gap: 30px;
+    width: 75%;
+    margin: 40px auto;
+}
+
+/* ===== INFOS À GAUCHE ===== */
+.contact-page-info {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    flex: 1;
+}
+
+.contact-page-info h2 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 25px;
+    border-left: 4px solid #6a11cb;
+    padding-left: 10px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.info-icon {
+    font-size: 1.5rem;
+    margin-top: 3px;
+}
+
+.info-item h4 {
+    color: #2575fc;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.info-item p {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* ===== FORMULAIRE À DROITE ===== */
+.contact-form-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    flex: 2;
+}
+
+.contact-form-card h2 {
+    color: #2c3e50;
+    font-weight: 700;
+    margin-bottom: 25px;
+    border-left: 4px solid #6a11cb;
+    padding-left: 10px;
+}
+
+/* ===== CHAMPS FORMULAIRE ===== */
+.contact-form-card .form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.contact-form-card .form-row .form-group {
+    flex: 1;
+}
+
+.contact-form-card .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form-card .form-group label {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+/* ✅ CORRIGÉ — bien ciblé pour ne pas affecter le reste */
+.contact-form-card .form-group input,
+.contact-form-card .form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #333;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+    background: #f9f9f9;
+}
+
+.contact-form-card .form-group input:focus,
+.contact-form-card .form-group textarea:focus {
+    outline: none;
+    border-color: #2575fc;
+    background: white;
+}
+
+.contact-form-card .form-group textarea {
+    resize: vertical;
+}
+
+/* ===== MESSAGE SUCCÈS ===== */
+.success-message {
+    background: #e8f5e9;
+    color: #2e7d32;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ===== BOUTON ===== */
+.contact-form-card .btn-submit {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.contact-form-card .btn-submit:hover {
+    opacity: 0.9;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        width: 90%;
+    }
+
+    .contact-form-card .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .contact-header h1 {
+        font-size: 1.8rem;
+    }
+}

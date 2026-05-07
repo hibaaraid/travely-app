@@ -1,11 +1,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
+import Contact from './pages/Contact';
+import ManageContacts from './pages/admin/ManageContacts';
 // --- COMPOSANTS DE STRUCTURE ---
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import PrivateRoute from './components/PrivateRoute';
-
+import PrivateRoute, { AdminRoute } from './components/PrivateRoute';
 // --- PAGES PUBLIQUES ---
 import Accueil from './pages/Accueil';
 import Login from './pages/Login';
@@ -21,6 +21,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageVoyages from './pages/admin/ManageDestinations';
 import ManageReservations from './pages/admin/ManageReservations';
 import ManageUsers from './pages/admin/ManageUsers';
+
 
 // Import du CSS global
 import './App.css';
@@ -38,20 +39,20 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/destinations/:id" element={<DestinationDetail />} />
-
+            <Route path="/contact" element={<Contact />} />
             {/* 2. ROUTES PROTÉGÉES USER */}
             <Route 
               path="/mes-reservations" 
-              element={<PrivateRoute><MesReservations /></PrivateRoute>} 
+              element={<MesReservations />} 
             />
             <Route 
               path="/reserver" 
-              element={<PrivateRoute><Reserver /></PrivateRoute>} 
+              element={<Reserver />} 
             />
 
             {/* 3. VOS ROUTES ADMIN */}
             <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
-
+            <Route path="/admin/contacts" element={<ManageContacts />} />
             {/* CORRECTION ICI : On enlève la balise <Route> qui entourait vos composants */}
             <Route 
               path="/admin/dashboard" 
@@ -68,6 +69,9 @@ function App() {
             <Route 
               path="/admin/users" 
               element={<ManageUsers />} 
+            />
+            <Route path="/admin/contacts"
+              element={<AdminRoute><ManageContacts /></AdminRoute>}
             />
 
             {/* 4. GESTION DES ERREURS D'URL */}
