@@ -7,11 +7,11 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Vérification de l'état de connexion
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true' || !!localStorage.getItem('token');
+  const role = localStorage.getItem('role');
+  const isAdmin = role === 'admin';
 
   const handleLogout = () => {
-    // Nettoyage complet du stockage
     localStorage.removeItem('isLoggedIn');
     localStorage.removeItem('token');
     localStorage.removeItem('role');
@@ -20,31 +20,44 @@ const Navbar = () => {
     navigate('/login');
   };
 
-  const handleLogin = () => {
-    navigate('/login');
-  };
-
-  // Liste mise à jour avec les accès aux fonctionnalités de réservation
-  const navLinks = [
+  // ===== Liens USER =====
+  const userLinks = [
     { label: 'Accueil', path: '/' },
-    { label: 'Réserver', path: '/reserver' }, // Lien vers la sélection
-    { label: 'Mes Réservations', path: '/mes-reservations' }, // Lien vers le dashboard
+    { label: 'Réserver', path: '/reserver' },
+    { label: 'Mes Réservations', path: '/mes-reservations' },
     { label: 'Contact', path: '/contact' },
   ];
 
+  // ===== Liens ADMIN =====
+  const adminLinks = [
+    { label: 'Dashboard', path: '/admin/dashboard' },
+    { label: 'Destinations', path: '/admin/destinations' },
+    { label: 'Réservations', path: '/admin/reservations' },
+    { label: 'Utilisateurs', path: '/admin/users' },
+    { label: 'Contacts', path: '/admin/contacts' },
+  ];
+
+  const navLinks = isAdmin ? adminLinks : userLinks;
+
   return (
     <header className="main-header">
-      {/* ===== TOP BAR (Emails & Tel) ===== */}
+      {/* ===== TOP BAR ===== */}
       <div className="top-bar">
         <div className="brand">
-          <Link to="/">
+          <Link to={isAdmin ? '/admin/dashboard' : '/'}>
             <img src={logoTravely} alt="Logo Travely" className="logo-img" />
           </Link>
         </div>
         <div className="contact-info">
-          <span>✉ contact@travely.com</span>
-          <span className="divider">|</span>
-          <span>📞 +212 600 123 456</span>
+          {isAdmin ? (
+            <span>👤 Admin Travely</span>
+          ) : (
+            <>
+              <span>✉ contact@travely.com</span>
+              <span className="divider">|</span>
+              <span>📞 +212 600 123 456</span>
+            </>
+          )}
         </div>
       </div>
 
@@ -69,7 +82,7 @@ const Navbar = () => {
               Déconnexion
             </button>
           ) : (
-            <button onClick={handleLogin} className="btn-auth btn-login">
+            <button onClick={() => navigate('/login')} className="btn-auth btn-login">
               Connexion
             </button>
           )}

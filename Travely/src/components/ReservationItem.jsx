@@ -14,7 +14,7 @@ const ReservationItem = ({ reservation }) => {
     <div className="reservation-item">
       {/* On utilise l'image de la destination ou un placeholder */}
       <img 
-        src={destination?.image || "https://via.placeholder.com/150"} 
+        src={destination?.image ? `http://127.0.0.1:8000${destination.image}` : "https://via.placeholder.com/150"}
         alt={destination?.titre} 
         className="res-image" 
       />

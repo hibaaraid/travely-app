@@ -17,7 +17,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::create([
-            'nom' => $request->name, // Mapping React -> SQL
+            'name' => $request->name, // ✅ corrigé : name pas nom
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'user',
@@ -44,7 +44,8 @@ class AuthController extends Controller
         return response()->json([
             'token' => Str::random(60),
             'role' => $user->role,
-            'user' => $user
+            'user' => $user,
+            'nom' => $user->name // ✅ on renvoie 'nom' pour qu'Assia soit contente aussi
         ]);
     }
 }

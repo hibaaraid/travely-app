@@ -16,15 +16,19 @@ const Login = () => {
     try {
       const res = await api.post('/login', credentials);
       
-      // Stockage des informations essentielles pour le fonctionnement de l'app
       localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user_id', res.data.user.id);   // Utilisé pour filtrer les réservations
-      localStorage.setItem('user_name', res.data.user.nom); // Pour l'affichage personnalisé
+      localStorage.setItem('user_id', res.data.user.id);
+      localStorage.setItem('user_name', res.data.user.name); // ✅ name pas nom
       localStorage.setItem('role', res.data.user.role);
       localStorage.setItem('isLoggedIn', 'true');
       
-      alert("Connexion réussie !");
-      navigate('/mes-reservations'); // Redirection vers ton dashboard
+      // ✅ Redirection selon le rôle
+      if (res.data.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/');
+      }
+
     } catch (err) {
       alert("Email ou mot de passe incorrect");
     }

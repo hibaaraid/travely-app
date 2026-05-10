@@ -41,11 +41,11 @@ class ReservationController extends Controller
 
         try {
             // Création de la ligne dans la table 'reservations'
+            // ✅ Après
             $reservation = Reservation::create([
                 'user_id' => $request->user_id,
                 'destination_id' => $request->destination_id,
-                'statut' => 'en attente', 
-                'date_reservation' => now(),
+                'statut' => 'en_attente',
             ]);
 
             return response()->json([
@@ -74,4 +74,25 @@ class ReservationController extends Controller
         }
         return response()->json(['message' => 'Réservation introuvable'], 404);
     }
+    public function adminIndex()
+        {
+            $reservations = Reservation::with(['destination', 'user'])->get();
+            return response()->json($reservations);
+        }
+        public function update(Request $request, $id)
+{
+    $reservation = Reservation::find($id);
+    
+    if (!$reservation) {
+        return response()->json(['message' => 'Réservation introuvable'], 404);
+    }
+
+    $reservation->statut = $request->statut;
+    $reservation->save();
+
+    return response()->json([
+        'message' => 'Statut mis à jour avec succès',
+        'data' => $reservation
+    ]);
+}
 }
