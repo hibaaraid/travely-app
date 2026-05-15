@@ -48,4 +48,31 @@ class AuthController extends Controller
             'nom' => $user->name // ✅ on renvoie 'nom' pour qu'Assia soit contente aussi
         ]);
     }
+    public function changePassword(Request $request)
+{
+    $request->validate([
+        'ancien_password'  => 'required',
+        'nouveau_password' => 'required|min:6',
+    ]);
+
+    // ✅ Récupérer le user via le token manuellement
+    $token = $request->bearerToken();
+    $pat   = \Laravel\Sanctum\PersonalAccessToken::findToken($token);
+    
+    if (!$pat) {
+        return response()->json(['message' => 'Non authentifié'], 401);
+    }
+
+    $user = $pat->tokenable;
+
+    if (!Hash::check($request->ancien_password, $user->password)) {
+        return response()->json(['message' => 'Ancien mot de passe incorrect'], 401);
+    }
+
+    $user->update([
+        'password' => Hash::make($request->nouveau_password)
+    ]);
+
+    return response()->json(['message' => 'Mot de passe modifié avec succès']);
+}
 }

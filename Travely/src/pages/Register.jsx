@@ -1,96 +1,114 @@
-import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import api from '../api/axiosConfig'; // Ton instance Axios pointant vers http://127.0.0.1:8000/api
-import './Login.css'; // On réutilise le CSS de centrage
+import React, { useState, useEffect } from 'react'; // Ne pas oublier useEffect
+import { useNavigate } from 'react-router-dom';
+import api from '../api/axiosConfig';
+import './Reserver.css';
 
-const Register = () => {
+const Reserver = () => {
+    const [destinations, setDestinations] = useState([]);
+    const [selectedId, setSelectedId] = useState('');
+    const [dateDepart, setDateDepart] = useState('');
+    const [nbPersonnes, setNbPersonnes] = useState(1);
     const navigate = useNavigate();
-    
-    // État pour gérer les erreurs éventuelles du serveur
-    const [error, setError] = useState('');
 
-    const handleRegister = async (e) => {
-        e.preventDefault();
-        setError(''); // Réinitialise l'erreur à chaque tentative
+    // Récupération des destinations au chargement
+    useEffect(() => {
+        api.get('/destinations').then(res => {
+            setDestinations(res.data);
+            if (res.data.length > 0) {
+                setSelectedId(res.data[0].id.toString());
+            }
+        }).catch(err => console.error("Erreur chargement destinations:", err));
+    }, []);
 
-        // Préparation des données pour Laravel
-        // Note : On envoie 'name' car ton AuthController fait le mapping vers 'nom'
-        const newUser = {
-            name: e.target.nom.value, 
-            email: e.target.email.value,
-            password: e.target.password.value,
-        };
+    const handleConfirm = async () => {
+        const userId = localStorage.getItem('user_id');
+        
+        if (!userId) {
+            alert("Erreur : Utilisateur non connecté.");
+            return;
+        }
+
+        // Vérification locale avant envoi
+        if (!dateDepart || !selectedId) {
+            alert("Veuillez remplir tous les champs.");
+            return;
+        }
 
         try {
-            // Envoi de la requête POST vers /api/register
-            const response = await api.post('/register', newUser);
-
-            if (response.status === 201) {
-                alert("Compte Travely créé avec succès !");
-                navigate('/login'); // Redirection vers la page de connexion
-            }
+            await api.post('/reservations', {
+                user_id: parseInt(userId),
+                destination_id: parseInt(selectedId),
+                date_depart: dateDepart,
+                nombre_personnes: parseInt(nbPersonnes),
+                statut: 'en attente'
+            });
+            alert("Voyage réservé avec succès !");
+            navigate('/mes-reservations');
         } catch (err) {
-            // Gestion des erreurs (ex: email déjà utilisé ou serveur éteint)
-            console.error("Détails de l'erreur :", err.response?.data);
-            const message = err.response?.data?.message || "Erreur lors de l'inscription. Vérifiez vos informations.";
-            setError(message);
+            console.error("Erreur détails:", err.response?.data);
+            alert("Erreur lors de la réservation : " + (err.response?.data?.message || "Erreur serveur"));
         }
     };
 
+    // Trouver la destination sélectionnée pour l'affichage du prix
+    const selectedDest = destinations.find(d => d.id.toString() === selectedId.toString());
+
     return (
-        <div className="auth-page"> {/* Conteneur Flexbox pour centrer au milieu */}
-            <div className="auth-card">
-                <h1>Inscription Travely</h1>
-                <p className="subtitle">Créez votre compte pour explorer le monde</p>
+        <div className="reserver-page">
+            <div className="reserver-card">
+                <h2>Confirmer votre Voyage</h2>
+                
+                <label>Choisir une destination :</label>
+                <select 
+                    value={selectedId} 
+                    onChange={(e) => setSelectedId(e.target.value)} 
+                    className="custom-select"
+                >
+                    {destinations.map(d => (
+                        <option key={d.id} value={d.id}>
+                            {d.titre}
+                        </option>
+                    ))}
+                </select>
 
-                {/* Affichage d'un message d'erreur si l'inscription échoue */}
-                {error && <div style={{ color: 'red', marginBottom: '15px', fontSize: '14px' }}>{error}</div>}
-
-                <form onSubmit={handleRegister}>
-                    <div className="form-group">
-                        <label htmlFor="nom">Nom complet</label>
-                        <input 
-                            id="nom"
-                            name="nom" 
-                            type="text" 
-                            placeholder="Ex: Ahmed Alami" 
-                            required 
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="email">Adresse Email</label>
-                        <input 
-                            id="email"
-                            name="email" 
-                            type="email" 
-                            placeholder="votre@email.com" 
-                            required 
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <label htmlFor="password">Mot de passe</label>
-                        <input 
-                            id="password"
-                            name="password" 
-                            type="password" 
-                            placeholder="******** (min. 6 caractères)" 
-                            required 
-                        />
-                    </div>
-
-                    <button type="submit" className="btn-submit">
-                        Créer mon compte
-                    </button>
-                </form>
-
-                <div className="auth-footer">
-                    <p>Déjà inscrit ? <Link to="/login">Se connecter</Link></p>
+                <div className="input-group">
+                    <label>Date de départ :</label>
+                    <input 
+                        type="date" 
+                        value={dateDepart} 
+                        onChange={(e) => setDateDepart(e.target.value)} 
+                        required 
+                    />
                 </div>
+
+                <div className="input-group">
+                    <label>Nombre de personnes :</label>
+                    <input 
+                        type="number" 
+                        min="1" 
+                        value={nbPersonnes} 
+                        onChange={(e) => setNbPersonnes(e.target.value)} 
+                        required 
+                    />
+                </div>
+
+                {selectedDest && (
+                    <div className="dest-details">
+                        <p className="price-tag">Prix : <strong>{selectedDest.prix} DH</strong></p>
+                        <p className="dest-info">Total estimé : <strong>{selectedDest.prix * nbPersonnes} DH</strong></p>
+                    </div>
+                )}
+
+                <button 
+                    onClick={handleConfirm} 
+                    className="btn-confirm" 
+                    disabled={!selectedId || !dateDepart}
+                >
+                    Confirmer la réservation
+                </button>
             </div>
         </div>
     );
 };
 
-export default Register;
+export default Reserver;

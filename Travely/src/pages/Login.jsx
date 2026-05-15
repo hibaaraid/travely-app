@@ -21,7 +21,7 @@ const Login = () => {
       localStorage.setItem('user_name', res.data.user.name); // ✅ name pas nom
       localStorage.setItem('role', res.data.user.role);
       localStorage.setItem('isLoggedIn', 'true');
-      
+      localStorage.setItem('user_email', res.data.user.email); // ✅ Ajoute ça
       // ✅ Redirection selon le rôle
       if (res.data.role === 'admin') {
         navigate('/admin/dashboard');

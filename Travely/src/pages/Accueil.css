@@ -4,12 +4,32 @@
   padding: 100px 20px;
   color: #1a2744;
   font-size: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.loading-screen svg {
+  font-size: 48px;
+  color: #e8630a;
+  animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
 .error-screen {
   text-align: center;
   padding: 100px 20px;
   color: #e8630a;
   font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.error-screen svg {
+  font-size: 24px;
 }
 
 /* ─── HERO ────────────────────────────────────────────────── */
@@ -24,20 +44,42 @@
   font-size: 46px;
   font-weight: bold;
   margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+}
+.hero-icon {
+  font-size: 48px;
+  color: #e8630a;
 }
 .hero p {
   font-size: 20px;
   opacity: 0.85;
   margin-bottom: 40px;
 }
+
+/* ─── HERO SEARCH ─────────────────────────────────────────── */
 .hero-search {
   display: flex;
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
 }
+.hero-search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.hero-search-icon {
+  position: absolute;
+  left: 16px;
+  color: #aaa;
+  font-size: 20px;
+  pointer-events: none;
+}
 .hero-search input {
-  padding: 14px 24px;
+  padding: 14px 24px 14px 48px;
   border-radius: 30px;
   border: none;
   font-size: 16px;
@@ -45,7 +87,7 @@
   outline: none;
 }
 .hero-search button {
-  padding: 14px 32px;
+  padding: 14px 28px;
   background: #e8630a;
   color: white;
   border: none;
@@ -54,9 +96,15 @@
   cursor: pointer;
   font-weight: bold;
   transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .hero-search button:hover {
   background: #c9520a;
+}
+.hero-search button svg {
+  font-size: 20px;
 }
 
 /* ─── CONTENU ─────────────────────────────────────────────── */
@@ -72,10 +120,17 @@
 }
 .section-categorie h2 {
   color: #1a2744;
-  border-left: 4px solid #e8630a;  /* ← orange au lieu de rouge */
+  border-left: 4px solid #e8630a;
   padding-left: 16px;
   margin-bottom: 28px;
   font-size: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-categorie h2 svg {
+  font-size: 26px;
+  color: #e8630a;
 }
 .destinations-grille {
   display: grid;
@@ -90,6 +145,7 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.12);
   background: white;
   transition: transform 0.3s;
+  text-align: left; /* Force le texte à gauche au cas où */
 }
 .carte:hover {
   transform: translateY(-5px);
@@ -109,11 +165,14 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 48px;
   opacity: 0.4;
 }
+.carte-image-placeholder svg {
+  font-size: 56px;
+  color: white;
+}
 .carte-badge {
-  background: #e8630a;           /* ← orange */
+  background: #e8630a;
   color: white;
   padding: 4px 10px;
   border-radius: 20px;
@@ -126,7 +185,7 @@
 }
 .carte-body h3 {
   margin: 0 0 8px;
-  color: #1a2744;                 /* ← bleu foncé */
+  color: #1a2744;
   font-size: 16px;
 }
 .carte-body .description {
@@ -139,43 +198,64 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.carte-body .places {
-  color: #2d4a7a;
+
+/* Flexbox pour aligner proprement les icônes et le texte dans la carte */
+.carte-body .places, 
+.carte-body .date {
   font-size: 13px;
   margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.carte-body .places {
+  color: #2d4a7a;
 }
 .carte-body .date {
   color: #666;
-  font-size: 13px;
-  margin: 0 0 12px;
+  margin-bottom: 12px;
 }
+.carte-body .places svg, 
+.carte-body .date svg {
+  font-size: 16px;
+}
+.carte-body .date svg {
+  color: #e8630a;
+}
+
 .carte-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 .carte-prix {
-  color: #e8630a;                 /* ← orange */
+  color: #e8630a;
   font-weight: bold;
   font-size: 20px;
 }
 .carte-btn {
-  background: #1a2744;            /* ← bleu foncé */
+  background: #1a2744;
   color: white;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 6px;
   text-decoration: none;
   font-size: 13px;
   font-weight: bold;
   transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 .carte-btn:hover {
-  background: #e8630a;            /* ← orange au hover */
+  background: #e8630a;
+}
+.carte-btn svg {
+  font-size: 16px;
 }
 
 /* ─── RESPONSIVE ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .hero h1 { font-size: 28px; }
+  .hero h1 { font-size: 26px; }
   .hero p  { font-size: 16px; }
   .hero-search input { width: 100%; }
   .destinations-grille { grid-template-columns: 1fr; }

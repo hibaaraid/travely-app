@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import api from '../../api/axiosConfig';
 import './ManageReservations.css';
 
+// IMPORT DES ICÔNES (SVG)
+import { 
+  MdCheckCircle, 
+  MdCancel, 
+  MdHourglassEmpty, 
+  MdFilterList, 
+  MdPerson, 
+  MdEvent, 
+  MdConfirmationNumber 
+} from 'react-icons/md';
+
 const FILTRES = ['Toutes', 'attente', 'confirme', 'refuse'];
 
 const ManageReservations = () => {
@@ -32,57 +43,92 @@ const ManageReservations = () => {
     return 'En attente';
   };
 
+  const getStatusIcon = (statut) => {
+    if (statut === 'confirme') return <MdCheckCircle />;
+    if (statut === 'refuse')   return <MdCancel />;
+    return <MdHourglassEmpty />;
+  };
+
   return (
-    <div className="admin-page">
-      <div className="page-header">
-        <h2 className="page-title">Gestion des réservations</h2>
-        <span className="count-label">{filtrees.length} réservation(s)</span>
+    <div className="admin-container">
+      <div className="admin-header">
+        <div className="header-text">
+          <h2 className="page-title">Gestion des Réservations</h2>
+          <p className="page-subtitle">Validez ou refusez les demandes des clients</p>
+        </div>
+        <div className="count-chip">
+          <MdConfirmationNumber /> {filtrees.length} Réservations
+        </div>
       </div>
 
-      <div className="filters">
-        {FILTRES.map(f => (
-          <button
-            key={f}
-            className={`filter-btn ${filtre === f ? 'active' : ''}`}
-            onClick={() => setFiltre(f)}
-          >
-            {f === 'Toutes' ? 'Toutes' : badgeLabel(f)}
-          </button>
-        ))}
+      <div className="filters-card">
+        <div className="filter-label">
+          <MdFilterList /> Filtrer par statut :
+        </div>
+        <div className="filters-group">
+          {FILTRES.map(f => (
+            <button
+              key={f}
+              className={`filter-btn ${filtre === f ? 'active' : ''}`}
+              onClick={() => setFiltre(f)}
+            >
+              {f === 'Toutes' ? 'Toutes' : badgeLabel(f)}
+            </button>
+          ))}
+        </div>
       </div>
 
-      <div className="table-wrap">
-        <table>
+      <div className="table-card">
+        <table className="modern-table">
           <thead>
             <tr>
               <th>Réf.</th>
-              <th>Client</th>
-              <th>Voyage</th>
+              <th>Client / Voyage</th>
               <th>Date départ</th>
               <th>Personnes</th>
               <th>Statut</th>
-              <th>Actions</th>
+              <th style={{ textAlign: 'center' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {filtrees.length === 0 ? (
-              <tr><td colSpan="7" style={{ textAlign: 'center', color: '#aaa', padding: '2rem' }}>Aucune réservation</td></tr>
+              <tr>
+                <td colSpan="6" className="empty-row">
+                  Aucune réservation trouvée pour ce filtre.
+                </td>
+              </tr>
             ) : (
               filtrees.map(res => (
                 <tr key={res.id}>
-                  <td className="ref">#TRV-{res.id}</td>
-                  <td>{res.user_name}</td>
-                  <td>{res.destination_titre}</td>
-                  <td>{res.date_depart}</td>
-                  <td>{res.nombre_personnes}</td>
-                  <td><span className={badgeClass(res.statut)}>{badgeLabel(res.statut)}</span></td>
+                  <td className="ref-text">#TRV-{res.id}</td>
                   <td>
-                    <div className="actions">
+                    <div className="client-info">
+                      <span className="client-name"><MdPerson size={14}/> {res.user_name}</span>
+                      <span className="voyage-title">{res.destination_titre}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div className="date-cell">
+                      <MdEvent /> {res.date_depart}
+                    </div>
+                  </td>
+                  <td className="count-cell">{res.nombre_personnes} pers.</td>
+                  <td>
+                    <span className={badgeClass(res.statut)}>
+                      {getStatusIcon(res.statut)} {badgeLabel(res.statut)}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="actions-btns">
                       {res.statut !== 'confirme' && (
-                        <button className="btn-ok" onClick={() => updateStatus(res.id, 'confirme')}>Confirmer</button>
+                        <button className="btn-status confirm" onClick={() => updateStatus(res.id, 'confirme')} title="Confirmer">
+                          <MdCheckCircle /> Confirmer
+                        </button>
                       )}
                       {res.statut !== 'refuse' && (
-                        <button className="btn-no" onClick={() => updateStatus(res.id, 'refuse')}>Refuser</button>
+                        <button className="btn-status reject" onClick={() => updateStatus(res.id, 'refuse')} title="Refuser">
+                          <MdCancel /> Refuser
+                        </button>
                       )}
                     </div>
                   </td>

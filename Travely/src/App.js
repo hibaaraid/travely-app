@@ -15,6 +15,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import ManageVoyages from './pages/admin/ManageDestinations';
 import ManageReservations from './pages/admin/ManageReservations';
 import ManageUsers from './pages/admin/ManageUsers';
+import Profile from './pages/Profile';
 import './App.css';
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
             <Route path="/admin/reservations" element={<AdminRoute><ManageReservations /></AdminRoute>} />
             <Route path="/admin/users" element={<AdminRoute><ManageUsers /></AdminRoute>} />
             <Route path="/admin/contacts" element={<AdminRoute><ManageContacts /></AdminRoute>} />
-
+            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             {/* 4. GESTION DES ERREURS D'URL */}
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>

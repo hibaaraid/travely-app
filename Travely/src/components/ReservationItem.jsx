@@ -1,39 +1,52 @@
 import React from 'react';
 import './ReservationItem.css';
+// IMPORT DES ICÔNES
+import { MdEvent, MdAttachMoney, MdInfoOutline, MdFlight } from 'react-icons/md';
 
 const ReservationItem = ({ reservation }) => {
-  // CORRECTION : On extrait les données selon la structure réelle de ton API Laravel
-  // reservation.destination est un objet, reservation.date_reservation est une chaîne
   const { 
     destination, 
     date_reservation, 
     statut = "En attente"
   } = reservation || {};
 
+  // Fonction pour transformer le statut en classe CSS (ex: "En attente" -> "en-attente")
+  const statusClass = statut.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+
   return (
-    <div className="reservation-item">
-      {/* On utilise l'image de la destination ou un placeholder */}
-      <img 
-        src={destination?.image ? `http://127.0.0.1:8000${destination.image}` : "https://via.placeholder.com/150"}
-        alt={destination?.titre} 
-        className="res-image" 
-      />
+    <div className="reservation-card-item">
+      <div className="res-image-container">
+        {destination?.image ? (
+          <img 
+            src={`http://127.0.0.1:8000${destination.image}`} 
+            alt={destination.titre} 
+            className="res-img" 
+          />
+        ) : (
+          <div className="res-placeholder"><MdFlight size={30} /></div>
+        )}
+      </div>
       
-      <div className="res-info">
-        {/* ✅ IMPORTANT : On affiche .titre et non l'objet destination complet */}
-        <h3>{destination?.titre || "Destination Travely"}</h3>
+      <div className="res-details-main">
+        <h3 className="res-dest-title">{destination?.titre || "Destination Travely"}</h3>
         
-        <p className="res-date">📅 {date_reservation || "Date non définie"}</p>
-        
-        {/* ✅ IMPORTANT : On affiche .prix venant de l'objet destination */}
-        <p className="res-price">{destination?.prix ? `${destination.prix} DH` : "Prix non défini"}</p>
+        <div className="res-meta">
+          <span className="res-meta-item">
+            <MdEvent size={16} /> {date_reservation || "Date non définie"}
+          </span>
+          <span className="res-meta-item price">
+            <MdAttachMoney size={16} /> {destination?.prix ? `${Number(destination.prix).toLocaleString()} DH` : "---"}
+          </span>
+        </div>
       </div>
 
-      <div className="res-status">
-        <span className={`status-badge ${statut.toLowerCase().replace(/\s+/g, '-')}`}>
+      <div className="res-status-zone">
+        <span className={`res-badge ${statusClass}`}>
           {statut}
         </span>
-        <button className="btn-details">Voir détails</button>
+        <button className="btn-details-view">
+          <MdInfoOutline /> Détails
+        </button>
       </div>
     </div>
   );

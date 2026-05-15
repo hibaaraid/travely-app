@@ -12,7 +12,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // ✅ statefulApi() supprimé — cause de l'erreur Sanctum
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

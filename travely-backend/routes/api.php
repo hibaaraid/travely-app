@@ -33,6 +33,8 @@ Route::post('/contact', [ContactController::class, 'store']);
 
     // Déconnexion
     \Route::post('/logout', [AuthController::class, 'logout']);
+// ✅ Ajoute ici
+    \Route::post('/change-password', [AuthController::class, 'changePassword']);
 
     // --- Espace Utilisateur (Réservations) ---
     \Route::get('/reservations',         [ReservationController::class, 'index']);

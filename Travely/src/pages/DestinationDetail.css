@@ -1,99 +1,327 @@
-/* ===== PAGE DETAIL ===== */
-.detail-container {
-    background: #f4f7f6;
-    min-height: 100vh;
-    padding-bottom: 60px;
-}
-
-/* ===== HERO IMAGE EN HAUT ===== */
-.detail-container > img {
-    width: 60%;
-    height: 300px;
-    object-fit: cover;
-    display: block;
-    border-radius: 12px;
-    margin: 30px auto;  /* centré */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-    border-bottom: none;
-}
-
-/* ===== CONTENU PRINCIPAL ===== */
-.detail-container h1 {
+/* ─── LOADING / ERREUR ───────────────────────────────────── */
+.detail-loading {
     text-align: center;
-    color: #2c3e50;
-    font-weight: 700;
-    font-size: 2.2rem;
-    margin: 20px auto;   /* ✅ centré */
-    width: 60%;
+    padding: 100px 20px;
+    font-size: 22px;
+    color: #1d3557;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+.detail-loading-icon {
+    font-size: 52px !important;
+    color: #e63946;
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
 }
 
-/* ===== SECTIONS ===== */
-.detail-container div {
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 25px 30px;
-    margin: 20px auto;   /* ✅ centré */
-    width: 60%;  
+.detail-erreur {
+    text-align: center;
+    padding: 100px 20px;
+    font-size: 18px;
+    color: #e63946;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.detail-erreur .material-icons {
+    font-size: 48px;
 }
 
-.detail-container div h3 {
-    color: #2575fc;
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-    border-left: 4px solid #6a11cb;
-    padding-left: 10px;
+/* ─── PAGE ───────────────────────────────────────────────── */
+.detail-page {
+    min-height: 100vh;
+    background: #f8f9fa;
 }
 
-.detail-container div p {
-    color: #555;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 10px;
+/* ─── HERO ───────────────────────────────────────────────── */
+.detail-hero {
+    height: 420px;
+    background: linear-gradient(135deg, #1d3557, #457b9d);
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
 
-/* ===== PRIX ===== */
-.price {
-    font-size: 1.5rem;
-    color: #2575fc;
+.detail-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0.2));
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 40px 60px;
+    gap: 12px;
+}
+
+.detail-badge {
+    background: #e63946;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
     font-weight: bold;
-    display: block;
-    margin-top: 10px;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.detail-badge .material-icons {
+    font-size: 16px;
 }
 
-/* ===== BOUTON RÉSERVER ===== */
-.detail-container button {
+.detail-titre {
+    color: white;
+    font-size: 42px;
+    font-weight: bold;
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* ─── CONTENU PRINCIPAL ──────────────────────────────────── */
+.detail-contenu {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 40px;
+    align-items: start;
+}
+
+/* ─── SECTIONS GAUCHE ────────────────────────────────────── */
+.detail-section {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+
+.detail-section h2 {
+    color: #1d3557;
+    font-size: 20px;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.detail-section h2 .material-icons {
+    font-size: 22px;
+    color: #e63946;
+}
+
+.detail-section p {
+    color: #555;
+    line-height: 1.8;
+    font-size: 15px;
+    margin: 0;
+}
+
+/* ─── GRILLE INFOS ───────────────────────────────────────── */
+.detail-infos-grille {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.info-label {
+    font-size: 13px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.info-label .material-icons {
+    font-size: 16px;
+    color: #e63946;
+}
+
+.info-valeur {
+    font-size: 16px;
+    color: #1d3557;
+    font-weight: bold;
+}
+
+.info-valeur.prix {
+    color: #e63946;
+    font-size: 20px;
+}
+
+/* ─── CARTE ACTION DROITE ────────────────────────────────── */
+.detail-carte-action {
+    background: white;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    position: sticky;
+    top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.action-prix {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.action-prix-label {
+    font-size: 14px;
+    color: #888;
+}
+
+.action-prix-valeur {
+    font-size: 36px;
+    font-weight: bold;
+    color: #e63946;
+}
+
+.action-sep {
+    border: none;
+    border-top: 1px solid #f0f0f0;
+    margin: 0;
+}
+
+/* ─── BOUTONS ────────────────────────────────────────────── */
+.action-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     width: 100%;
     padding: 14px;
-    border: none;
     border-radius: 8px;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
     cursor: pointer;
-    margin-top: 15px;
-    transition: opacity 0.3s ease;
+    border: none;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+.btn-action .material-icons {
+    font-size: 20px;
 }
 
-.detail-container button:hover {
-    opacity: 0.9;
+.btn-reserver {
+    background: #e63946;
+    color: white;
+}
+.btn-reserver:hover {
+    background: #c1121f;
 }
 
-/* ===== RESPONSIVE MOBILE ===== */
-@media (max-width: 768px) {
-    .detail-container > img {
-        height: 250px;
-    }
+.btn-modifier {
+    background: #1d3557;
+    color: white;
+}
+.btn-modifier:hover {
+    background: #457b9d;
+}
 
-    .detail-container h1 {
-        font-size: 1.6rem;
-        margin: 25px 4% 20px;
-    }
+.btn-supprimer {
+    background: white;
+    color: #e63946;
+    border: 2px solid #e63946 !important;
+}
+.btn-supprimer:hover {
+    background: #e63946;
+    color: white;
+}
 
-    .detail-container div {
-        margin: 15px 4%;
-        padding: 20px;
+.action-note {
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+.action-note .material-icons {
+    font-size: 14px;
+    color: #aaa;
+}
+
+/* ─── RETOUR ─────────────────────────────────────────────── */
+.btn-retour {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+    color: #457b9d;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+.btn-retour:hover {
+    color: #1d3557;
+}
+.btn-retour .material-icons {
+    font-size: 18px;
+}
+
+.detail-retour {
+    color: #1d3557;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: 2px solid #1d3557;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.detail-retour .material-icons {
+    font-size: 18px;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+    .detail-contenu {
+        grid-template-columns: 1fr;
+    }
+    .detail-hero {
+        height: 280px;
+    }
+    .detail-titre {
+        font-size: 26px;
+    }
+    .detail-hero-overlay {
+        padding: 24px;
+    }
+    .detail-infos-grille {
+        grid-template-columns: 1fr;
+    }
+    .detail-carte-action {
+        position: static;
     }
 }

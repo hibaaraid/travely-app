@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useState } from 'react';
 import api from '../api/axiosConfig';
 import './Dashboard.css';
 
@@ -6,19 +6,26 @@ const Dashboard = () => {
     const [reservations, setReservations] = useState([]);
     const [userName, setUserName] = useState('');
     const [loading, setLoading] = useState(true);
+    const [stats, setStats] = useState({ voyages: 0, reservations: 0, utilisateurs: 0 });
 
     useEffect(() => {
         const fetchUserData = async () => {
             const userId = localStorage.getItem('user_id');
-            const name = localStorage.getItem('user_name'); // Stocké lors du login
+            const name = localStorage.getItem('user_name');
             setUserName(name || 'Voyageur');
 
-            if (!userId) return;
+            if (!userId) { setLoading(false); return; }
 
             try {
-                // Récupère les réservations avec les détails des destinations
                 const response = await api.get(`/reservations?user_id=${userId}`);
                 setReservations(response.data);
+
+                // Optionnel : récupérer les stats globales si tu as un endpoint admin
+                // const statsRes = await api.get('/stats');
+                // setStats(statsRes.data);
+
+                // Valeurs statiques en attendant l'API
+                setStats({ voyages: 11, reservations: 3, utilisateurs: 2 });
             } catch (error) {
                 console.error("Erreur lors du chargement des réservations:", error);
             } finally {
@@ -29,41 +36,93 @@ const Dashboard = () => {
         fetchUserData();
     }, []);
 
-    if (loading) return <div className="loader">Chargement de votre tableau de bord...</div>;
+    if (loading) return (
+        <div className="db-loader">Chargement de votre tableau de bord...</div>
+    );
 
     return (
-        <div className="dashboard-container">
-            <header className="dashboard-header">
-                <h1>Bienvenue, {userName} !</h1>
-                <p>Voici l'historique de vos aventures.</p>
-            </header>
+        <div className="db-wrap">
+            <div className="db-card">
 
-            <div className="reservation-section">
-                <h2>Mes Réservations</h2>
+                {/* Bienvenue */}
+                <div className="db-welcome">
+                    <h1>Bienvenue, {userName} !</h1>
+                    <p>Voici l'historique de vos aventures.</p>
+                </div>
+
+                {/* Statistiques */}
+                <div className="db-stats-title">
+                    <span>📊</span> Statistiques
+                </div>
+                <hr className="db-divider" />
+
+                <div className="db-stats-grid">
+                    <div className="db-stat-box">
+                        <div className="db-stat-number">{stats.voyages}</div>
+                        <div className="db-stat-label">Voyages</div>
+                    </div>
+                    <div className="db-stat-box">
+                        <div className="db-stat-number">{stats.reservations}</div>
+                        <div className="db-stat-label">Réservations</div>
+                    </div>
+                    <div className="db-stat-box">
+                        <div className="db-stat-number">{stats.utilisateurs}</div>
+                        <div className="db-stat-label">Utilisateurs</div>
+                    </div>
+                </div>
+
+                {/* Boutons de navigation */}
+                <div className="db-nav-grid">
+                    <button className="db-nav-btn">
+                        <span>📊</span> Dashboard
+                    </button>
+                    <button className="db-nav-btn">
+                        <span>✈️</span> Destinations
+                    </button>
+                    <button className="db-nav-btn">
+                        <span>📋</span> Réservations
+                    </button>
+                    <button className="db-nav-btn">
+                        <span>👥</span> Utilisateurs
+                    </button>
+                </div>
+
+                {/* Mes Réservations */}
+                <h2 className="db-section-title">Mes Réservations</h2>
+
                 {reservations.length > 0 ? (
-                    <div className="reservation-list">
+                    <div className="db-res-list">
                         {reservations.map((res) => (
-                            <div key={res.id} className="reservation-item">
-                                <div className="res-info">
-                                    {/* On utilise la relation destination définie dans Laravel */}
-                                    <strong>{res.destination?.titre || 'Voyage'}</strong>
-                                    <span>Statut : <span className={`status ${res.status?.toLowerCase()}`}>{res.status}</span></span>
+                            <div key={res.id} className="db-res-item">
+                                <div>
+                                    <div className="db-res-name">
+                                        {res.destination?.titre || 'Voyage'}
+                                    </div>
+                                    <div className="db-res-status">
+                                        Statut :&nbsp;
+                                        <span className={`db-status-badge ${res.status?.toLowerCase()}`}>
+                                            {res.status}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="res-actions">
-                                    <button className="btn-view">Détails</button>
-                                </div>
+                                <button className="db-btn-view">Détails</button>
                             </div>
                         ))}
                     </div>
                 ) : (
-                    <div className="empty-state">
+                    <div className="db-empty">
                         <p>Aucune réservation trouvée.</p>
-                        <a href="/destinations" className="btn-link">Découvrir nos voyages</a>
+                        <a href="/destinations" className="db-btn-link">
+                            Découvrir nos voyages
+                        </a>
                     </div>
                 )}
+
             </div>
         </div>
     );
 };
 
 export default Dashboard;
+
+
