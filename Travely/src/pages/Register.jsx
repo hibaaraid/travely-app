@@ -1,114 +1,73 @@
-import React, { useState, useEffect } from 'react'; // Ne pas oublier useEffect
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axiosConfig';
-import './Reserver.css';
+import { FaUser, FaEnvelope, FaLock, FaGlobeAmericas } from 'react-icons/fa';
+import './Register.css';
 
-const Reserver = () => {
-    const [destinations, setDestinations] = useState([]);
-    const [selectedId, setSelectedId] = useState('');
-    const [dateDepart, setDateDepart] = useState('');
-    const [nbPersonnes, setNbPersonnes] = useState(1);
+const Register = () => {
+    const [formData, setFormData] = useState({
+        nom: '', email: '', password: '', confirmPassword: ''
+    });
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    // Récupération des destinations au chargement
-    useEffect(() => {
-        api.get('/destinations').then(res => {
-            setDestinations(res.data);
-            if (res.data.length > 0) {
-                setSelectedId(res.data[0].id.toString());
-            }
-        }).catch(err => console.error("Erreur chargement destinations:", err));
-    }, []);
-
-    const handleConfirm = async () => {
-        const userId = localStorage.getItem('user_id');
-        
-        if (!userId) {
-            alert("Erreur : Utilisateur non connecté.");
-            return;
-        }
-
-        // Vérification locale avant envoi
-        if (!dateDepart || !selectedId) {
-            alert("Veuillez remplir tous les champs.");
-            return;
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+            return setError("Les mots de passe ne correspondent pas");
         }
 
         try {
-            await api.post('/reservations', {
-                user_id: parseInt(userId),
-                destination_id: parseInt(selectedId),
-                date_depart: dateDepart,
-                nombre_personnes: parseInt(nbPersonnes),
-                statut: 'en attente'
+            await api.post('/register', {
+                nom: formData.nom,
+                email: formData.email,
+                password: formData.password
             });
-            alert("Voyage réservé avec succès !");
-            navigate('/mes-reservations');
+            alert("Inscription réussie !");
+            navigate('/login');
         } catch (err) {
-            console.error("Erreur détails:", err.response?.data);
-            alert("Erreur lors de la réservation : " + (err.response?.data?.message || "Erreur serveur"));
+            setError(err.response?.data?.message || "Erreur lors de l'inscription");
         }
     };
 
-    // Trouver la destination sélectionnée pour l'affichage du prix
-    const selectedDest = destinations.find(d => d.id.toString() === selectedId.toString());
-
     return (
-        <div className="reserver-page">
-            <div className="reserver-card">
-                <h2>Confirmer votre Voyage</h2>
-                
-                <label>Choisir une destination :</label>
-                <select 
-                    value={selectedId} 
-                    onChange={(e) => setSelectedId(e.target.value)} 
-                    className="custom-select"
-                >
-                    {destinations.map(d => (
-                        <option key={d.id} value={d.id}>
-                            {d.titre}
-                        </option>
-                    ))}
-                </select>
-
-                <div className="input-group">
-                    <label>Date de départ :</label>
-                    <input 
-                        type="date" 
-                        value={dateDepart} 
-                        onChange={(e) => setDateDepart(e.target.value)} 
-                        required 
-                    />
+        <div className="register-page">
+            <div className="register-card">
+                <div className="register-header">
+                    <FaGlobeAmericas className="logo-icon" />
+                    <h2>Créer un compte</h2>
+                    <p>Rejoignez l'aventure Travely</p>
                 </div>
 
-                <div className="input-group">
-                    <label>Nombre de personnes :</label>
-                    <input 
-                        type="number" 
-                        min="1" 
-                        value={nbPersonnes} 
-                        onChange={(e) => setNbPersonnes(e.target.value)} 
-                        required 
-                    />
-                </div>
+                {error && <p className="error-msg">{error}</p>}
 
-                {selectedDest && (
-                    <div className="dest-details">
-                        <p className="price-tag">Prix : <strong>{selectedDest.prix} DH</strong></p>
-                        <p className="dest-info">Total estimé : <strong>{selectedDest.prix * nbPersonnes} DH</strong></p>
+                <form onSubmit={handleSubmit}>
+                    <div className="input-box">
+                        <FaUser className="icon" />
+                        <input type="text" placeholder="Nom complet" required 
+                            onChange={(e) => setFormData({...formData, nom: e.target.value})} />
                     </div>
-                )}
-
-                <button 
-                    onClick={handleConfirm} 
-                    className="btn-confirm" 
-                    disabled={!selectedId || !dateDepart}
-                >
-                    Confirmer la réservation
-                </button>
+                    <div className="input-box">
+                        <FaEnvelope className="icon" />
+                        <input type="email" placeholder="Email" required 
+                            onChange={(e) => setFormData({...formData, email: e.target.value})} />
+                    </div>
+                    <div className="input-box">
+                        <FaLock className="icon" />
+                        <input type="password" placeholder="Mot de passe" required 
+                            onChange={(e) => setFormData({...formData, password: e.target.value})} />
+                    </div>
+                    <div className="input-box">
+                        <FaLock className="icon" />
+                        <input type="password" placeholder="Confirmer mot de passe" required 
+                            onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})} />
+                    </div>
+                    <button type="submit" className="btn-register">S'inscrire</button>
+                </form>
+                <p className="footer-text">Déjà inscrit ? <Link to="/login">Se connecter</Link></p>
             </div>
         </div>
     );
 };
 
-export default Reserver;
+export default Register;

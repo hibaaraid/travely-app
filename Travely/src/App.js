@@ -16,6 +16,7 @@ import ManageVoyages from './pages/admin/ManageDestinations';
 import ManageReservations from './pages/admin/ManageReservations';
 import ManageUsers from './pages/admin/ManageUsers';
 import Profile from './pages/Profile';
+import BlogDetail from './pages/BlogDetail';
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/destinations/:id" element={<DestinationDetail />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blogs/:id" element={<BlogDetail />} />  
 
             {/* 2. ROUTES PROTÉGÉES USER */}
             <Route path="/mes-reservations" element={<PrivateRoute><MesReservations /></PrivateRoute>} />

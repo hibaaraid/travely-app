@@ -1,28 +1,56 @@
-/* On importe les styles de Login.css pour ne pas tout réécrire */
-@import './Login.css';
-
-/* On ajoute juste les petites spécificités pour l'inscription si nécessaire */
+.register-page {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+}
 
 .register-card {
-    /* Si vous voulez que la carte d'inscription soit un peu plus large 
-       que celle du login à cause des champs supplémentaires */
-    max-width: 450px; 
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+    width: 400px;
+    text-align: center;
 }
 
-.login-form .form-group {
-    margin-bottom: 15px; /* Un peu moins d'espace entre les champs pour que tout rentre */
+.logo-icon { font-size: 3rem; color: #f39c12; margin-bottom: 1rem; }
+
+.input-box {
+    position: relative;
+    margin-bottom: 1.2rem;
 }
 
-/* Style pour la checkbox des conditions si vous en ajoutez une */
-.terms-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.85rem;
-    margin-bottom: 20px;
-    text-align: left;
+.input-box .icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
 }
 
-.terms-group input {
-    width: auto;
+.input-box input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
 }
+
+.btn-register {
+    width: 100%;
+    padding: 12px;
+    background: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-register:hover { background: #e67e22; }
+.error-msg { color: #e74c3c; font-size: 0.9rem; margin-bottom: 1rem; }

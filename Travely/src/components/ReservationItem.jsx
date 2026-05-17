@@ -1,5 +1,6 @@
 import React from 'react';
 import './ReservationItem.css';
+import { Link } from 'react-router-dom'; // 👈 INDISPENSABLE pour la navigation
 // IMPORT DES ICÔNES
 import { MdEvent, MdAttachMoney, MdInfoOutline, MdFlight } from 'react-icons/md';
 
@@ -10,8 +11,8 @@ const ReservationItem = ({ reservation }) => {
     statut = "En attente"
   } = reservation || {};
 
-  // Fonction pour transformer le statut en classe CSS (ex: "En attente" -> "en-attente")
-  const statusClass = statut.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '-');
+  // Fonction pour transformer le statut en classe CSS
+  const statusClass = statut.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f9]/g, "").replace(/\s+/g, '-');
 
   return (
     <div className="reservation-card-item">
@@ -44,9 +45,15 @@ const ReservationItem = ({ reservation }) => {
         <span className={`res-badge ${statusClass}`}>
           {statut}
         </span>
-        <button className="btn-details-view">
+        
+        {/* ✅ CORRECTION : On remplace <button> par <Link> pour activer la navigation */}
+        <Link 
+          to={`/destinations/${destination?.id}`} 
+          className="btn-details-view"
+          style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '5px' }}
+        >
           <MdInfoOutline /> Détails
-        </button>
+        </Link>
       </div>
     </div>
   );

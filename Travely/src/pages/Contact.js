@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Contact.css';
 import api from '../api/axiosConfig';
+import BlogSection from './BlogSection';
+
 const Contact = () => {
     const [formData, setFormData] = useState({
         nom: '',
@@ -14,7 +16,6 @@ const Contact = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    // ✅ APRÈS
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -24,7 +25,7 @@ const Contact = () => {
         } catch (err) {
             alert("Erreur lors de l'envoi, réessayez.");
         }
-};
+    };
 
     return (
         <div className="contact-page">
@@ -140,6 +141,10 @@ const Contact = () => {
                     </form>
                 </div>
             </div>
+
+            {/* ===== 👈 2. SECTION BLOG INTÉGRÉE JUSTE ICI EN BAS ===== */}
+            <BlogSection />
+
         </div>
     );
 };

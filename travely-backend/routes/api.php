@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Destination;
 use App\Models\Reservation;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\BlogController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,8 @@ use App\Http\Controllers\ContactController;
 \Route::post('/login', [AuthController::class, 'login'])->name('login');
 // Route publique
 Route::post('/contact', [ContactController::class, 'store']);
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{id}', [BlogController::class, 'show']);
 
 // ─── ROUTES PROTÉGÉES (Logique métier et Admin) ───
 // Note : 'api' est utilisé car vous gérez les tokens manuellement dans AuthController

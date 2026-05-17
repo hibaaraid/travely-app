@@ -11,9 +11,9 @@ const MesReservations = () => {
   useEffect(() => {
     const userId = localStorage.getItem('user_id');
     if (userId) {
+      // On s'assure que l'API renvoie bien la relation 'destination'
       api.get(`/reservations?user_id=${userId}`)
         .then(res => {
-          // res.data contient maintenant les réservations avec leurs destinations
           setVoyages(res.data);
           setLoading(false);
         })
@@ -27,27 +27,35 @@ const MesReservations = () => {
   }, []);
 
   if (loading) {
-    return <div className="loading">Chargement de vos voyages...</div>;
+    return (
+      <div className="dashboard-loading">
+        <div className="spinner"></div>
+        <p>Chargement de vos aventures...</p>
+      </div>
+    );
   }
 
   return (
     <div className="dashboard-container">
       <div className="dashboard-header">
         <h1>Mon Tableau de Bord</h1>
-        <p>Bienvenue, {localStorage.getItem('user_name') || 'Voyageur'}</p>
+        <p className="welcome-msg">
+          Ravi de vous revoir, <span>{localStorage.getItem('user_name') || 'Voyageur'}</span> !
+        </p>
       </div>
 
       <div className="reservation-list">
         {voyages.length > 0 ? (
           voyages.map(v => (
-            /* On passe l'objet de réservation au composant corrigé */
+            // On vérifie que v.destination existe pour éviter les crashs
             <ReservationItem key={v.id} reservation={v} />
           ))
         ) : (
           <div className="empty-state">
-            <p>Aucune réservation trouvée.</p>
-            <Link to="/reserver" className="btn-reserve-now">
-              Réserver mon premier voyage
+            <div className="empty-icon">🏝️</div>
+            <p>Vous n'avez pas encore de voyage prévu.</p>
+            <Link to="/" className="btn-reserve-now">
+              Explorer les destinations
             </Link>
           </div>
         )}

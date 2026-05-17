@@ -1,83 +1,119 @@
-/* Container principal centré */
+/* Container principal : Il occupe tout l'écran et centre le contenu */
 .reserver-page {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    background-color: #f4f7f6;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center;     /* Centre verticalement */
+    min-height: calc(100vh - 80px); /* Ajuste selon la hauteur de votre Navbar */
+    width: 100%;
+    background: #f8faff; /* Couleur de fond légère et moderne */
     padding: 20px;
+    box-sizing: border-box;
 }
 
-/* Carte de réservation */
+/* La carte de réservation */
 .reserver-card {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    background: #ffffff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(10, 25, 47, 0.1); /* Ombre douce bleu marine */
     width: 100%;
-    text-align: center;
-    border-top: 5px solid #1a365d; /* Bleu marine du header */
+    max-width: 550px; /* Taille optimale pour la lisibilité */
+    border-top: 6px solid #f39c12; /* Rappel de l'orange Travely */
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .reserver-card h2 {
-    color: #1a365d;
-    margin-bottom: 20px;
+    color: #0a192f;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    text-align: center;
 }
 
-.form-group {
-    text-align: left;
-    margin-bottom: 20px;
-}
-
-.form-group label {
+/* Style des labels et champs de saisie */
+.reserver-card label {
     display: block;
     margin-bottom: 8px;
     font-weight: 600;
-    color: #1a365d;
+    color: #34495e;
+    text-align: left;
 }
 
-.custom-select {
+.reserver-card select, 
+.reserver-card input {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #ecf0f1;
-    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.reserver-card select:focus, 
+.reserver-card input:focus {
+    border-color: #f39c12;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(243, 156, 18, 0.1);
+}
+
+/* Section récapitulative des prix (le bloc gris sur l'image) */
+.price-details {
+    background: #fdfaf5;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.price-details p {
+    margin: 5px 0;
+    color: #555;
     font-size: 1rem;
 }
 
-/* Affichage du prix en Orange */
-.price-tag {
-    color: #f39c12;
-    font-weight: bold;
-    font-size: 1.3rem;
-    margin: 20px 0;
+.price-details .total-price {
+    color: #27ae60; /* Vert pour le prix total */
+    font-weight: 800;
+    font-size: 1.4rem;
+    margin-top: 10px;
 }
 
-/* Section Statut */
-.status-info {
-    background: #fff5eb;
-    padding: 15px;
-    border-radius: 8px;
+/* Badge de statut */
+.status-badge {
+    background: #fff4e5;
+    color: #d35400;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
     margin-bottom: 25px;
-    border-left: 4px solid #f39c12; /* Accent orange */
-    color: #1a365d;
-    font-size: 0.9rem;
+    text-align: center;
 }
 
-/* Bouton de confirmation */
+/* Bouton Confirmer : Grand et contrasté */
 .btn-confirm {
     width: 100%;
-    padding: 15px;
-    border: none;
-    border-radius: 8px;
-    background-color: #1a365d; /* Bleu marine */
+    padding: 16px;
+    background: #0a192f; /* Bleu marine comme votre header */
     color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.2rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-confirm:hover {
-    background-color: #f39c12; /* Change en orange au survol */
+    background: #f39c12; /* Devient orange au survol comme dans la vidéo */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(243, 156, 18, 0.3);
 }
