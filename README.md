@@ -54,7 +54,9 @@ php artisan storage:link
 # 7. Démarrer le serveur API Laravel
 php artisan serve
 
-### ÉTAPE 2 :Configuration et lancement du Front-end (React) . Ouvrez un second terminal à la racine du projet (travely-app) et exécutez cette suite de commandes :
+### ÉTAPE 2 : Configuration et lancement du Front-end (React)
+Ouvrez un second terminal à la racine du projet (travely-app) et exécutez cette suite de commandes :
+```bash 
 
 # 1. Entrer dans le dossier de l'application cliente
 cd Travely
